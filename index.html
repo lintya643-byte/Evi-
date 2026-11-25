@@ -1964,27 +1964,55 @@ const audio = document.getElementById('bg-music');
 
 const musicBtn = document.getElementById('music-toggle');
 
-musicBtn.addEventListener('click',async function() {
+// Fungsi memutar musik
 
-  if(audio.paused) {
+async function playMusic() {
 
-    try {
+  try {
 
-      await audio.play();
+    await audio.play();
 
-      musicBtn.classList.add('playing');
+    musicBtn.classList.add('playing');
 
-    } catch(e) {
+  } catch (e) {
 
-      alert('Musik belum dapat diputar. Coba kembali.');
+    console.log('Musik belum dapat diputar.');
 
-    }
+  }
+
+}
+
+// Musik mulai setelah tamu berinteraksi pertama kali
+
+document.addEventListener('click', function startMusic() {
+
+  if (audio.paused) {
+
+    playMusic();
+
+  }
+
+  document.removeEventListener('click', startMusic);
+
+}, { once: true });
+
+// Tombol musik untuk pause dan play
+
+musicBtn.addEventListener('click', async function() {
+
+  if (audio.paused) {
+
+    await playMusic();
 
   } else {
 
     audio.pause();
 
     musicBtn.classList.remove('playing');
+
+  }
+
+});
 
   }
 
