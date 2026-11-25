@@ -43,20 +43,24 @@
 <body class="font-sans antialiased selection:bg-champagne/40">
 
   <!-- 1. HERO / COVER SECTION -->
-  <header class="min-h-screen flex flex-col items-center justify-between text-center px-6 py-16 bg-gradient-to-b from-sand/70 via-cream to-cream">
-    <p class="text-xs uppercase tracking-[0.3em] text-wood/70">The Wedding Celebration</p>
+  <header class="relative min-h-screen flex flex-col items-center justify-between text-center px-6 py-16 overflow-hidden bg-sand">
+    <img src="us.JPEG" alt="Evi & Rama"
+         class="absolute inset-0 w-full h-full object-cover object-top photo-warm -z-20" />
+    <div class="absolute inset-0 bg-gradient-to-b from-cream/80 via-cream/75 to-cream/90 backdrop-blur-[1px] -z-10"></div>
+
+    <p class="text-xs uppercase tracking-[0.3em] text-wood/80">The Wedding Celebration</p>
 
     <div class="my-auto space-y-5">
       <h1 class="font-serif text-5xl sm:text-7xl font-normal tracking-wide text-wood">Evi &amp; Rama</h1>
-      <p class="text-sm tracking-[0.2em] uppercase text-wood/80">10 September 2028 · Bogor</p>
+      <p class="text-sm tracking-[0.2em] uppercase text-wood/85">10 September 2028 · Bogor</p>
 
       <div class="pt-8">
-        <p class="text-xs text-wood/60 mb-1">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+        <p class="text-xs text-wood/70 mb-1">Kepada Yth. Bapak/Ibu/Saudara/i</p>
         <p id="guest-name" class="font-serif text-2xl font-medium text-wood">Tamu Undangan</p>
       </div>
     </div>
 
-    <a href="#opening" class="text-xs tracking-[0.2em] uppercase text-wood/60 hover:text-wood transition">
+    <a href="#opening" class="text-xs tracking-[0.2em] uppercase text-wood/75 hover:text-wood transition">
       Scroll to discover our story ↓
     </a>
   </header>
