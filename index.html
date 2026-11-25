@@ -42,15 +42,15 @@
 </head>
 <body class="font-sans antialiased selection:bg-champagne/40">
 
-  <!-- 1. HERO / COVER SECTION -->
-  <header class="relative min-h-screen flex flex-col items-center justify-between text-center px-6 py-16 overflow-hidden bg-sand">
+  <!-- 1. HERO / COVER SECTION (Full-bleed backdrop, menyatu ke bawah) -->
+  <header class="relative min-h-screen flex flex-col items-center justify-between text-center px-6 py-16 overflow-hidden bg-cream">
     <img src="us.JPEG" alt="Evi & Rama"
-         class="absolute inset-0 w-full h-full object-cover object-top photo-warm -z-20" />
-    <div class="absolute inset-0 bg-gradient-to-b from-cream/80 via-cream/75 to-cream/90 backdrop-blur-[1px] -z-10"></div>
+         class="absolute inset-0 w-full h-full object-cover object-top photo-warm pointer-events-none select-none" />
+    <div class="absolute inset-0 bg-gradient-to-b from-cream/75 via-cream/75 to-cream pointer-events-none"></div>
 
-    <p class="text-xs uppercase tracking-[0.3em] text-wood/80">The Wedding Celebration</p>
+    <p class="relative z-10 text-xs uppercase tracking-[0.3em] text-wood/80">The Wedding Celebration</p>
 
-    <div class="my-auto space-y-5">
+    <div class="relative z-10 my-auto space-y-5">
       <h1 class="font-serif text-5xl sm:text-7xl font-normal tracking-wide text-wood">Evi &amp; Rama</h1>
       <p class="text-sm tracking-[0.2em] uppercase text-wood/85">10 September 2028 · Bogor</p>
 
@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <a href="#opening" class="text-xs tracking-[0.2em] uppercase text-wood/75 hover:text-wood transition">
+    <a href="#opening" class="relative z-10 text-xs tracking-[0.2em] uppercase text-wood/75 hover:text-wood transition">
       Scroll to discover our story ↓
     </a>
   </header>
@@ -342,11 +342,11 @@
   </footer>
 
   <!-- AUDIO PLAYER -->
-  <audio id="bg-music" loop>
+  <audio id="bg-music" loop preload="auto">
     <source src="lagu.mp3" type="audio/mpeg" />
   </audio>
   <button id="music-toggle" type="button" aria-label="Toggle Music"
-          class="fixed bottom-5 right-5 w-11 h-11 rounded-full bg-wood text-cream shadow-md flex items-center justify-center text-sm hover:scale-105 transition">
+          class="fixed bottom-5 right-5 z-30 w-11 h-11 rounded-full bg-wood text-cream shadow-md flex items-center justify-center text-sm hover:scale-105 transition opacity-60">
     ♫
   </button>
 
@@ -421,19 +421,55 @@
       document.getElementById('rsvp-success').classList.remove('hidden');
     });
 
-    // 5. Background Music Toggle
+    // 5. Autoplay attempt + unlock on first interaction + manual toggle
     const audio = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-toggle');
     let isPlaying = false;
-    musicBtn.addEventListener('click', () => {
+    let userPaused = false;
+
+    function syncMusicUI(playing) {
+      isPlaying = playing;
+      musicBtn.classList.toggle('opacity-60', !playing);
+    }
+
+    async function startMusic() {
+      if (userPaused || isPlaying) return;
+      try {
+        await audio.play();
+        syncMusicUI(true);
+        removeUnlockListeners();
+      } catch (_) {
+        syncMusicUI(false);
+      }
+    }
+
+    function onFirstInteraction() {
+      startMusic();
+    }
+
+    function removeUnlockListeners() {
+      window.removeEventListener('pointerdown', onFirstInteraction);
+      window.removeEventListener('touchstart', onFirstInteraction);
+      window.removeEventListener('scroll', onFirstInteraction);
+      window.removeEventListener('keydown', onFirstInteraction);
+    }
+
+    window.addEventListener('load', startMusic);
+    window.addEventListener('pointerdown', onFirstInteraction, { passive: true });
+    window.addEventListener('touchstart', onFirstInteraction, { passive: true });
+    window.addEventListener('scroll', onFirstInteraction, { passive: true });
+    window.addEventListener('keydown', onFirstInteraction);
+
+    musicBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (isPlaying) {
         audio.pause();
-        musicBtn.classList.add('opacity-60');
+        userPaused = true;
+        syncMusicUI(false);
       } else {
-        audio.play();
-        musicBtn.classList.remove('opacity-60');
+        userPaused = false;
+        audio.play().then(() => syncMusicUI(true)).catch(() => syncMusicUI(false));
       }
-      isPlaying = !isPlaying;
     });
   </script>
 </body>
