@@ -379,7 +379,7 @@ body.invitation-locked {
 }
 
 /* =================================
-   COUPLE & INTER-BRIDE ANIMATION
+   COUPLE & BRIDGE TRANSITION
 ================================= */
 
 .couple-section {
@@ -389,12 +389,12 @@ body.invitation-locked {
 }
 
 .couple-grid {
-  max-width:850px;
+  max-width:860px;
   margin:55px auto 0;
   display:grid;
-  grid-template-columns:1fr 80px 1fr;
+  grid-template-columns:1fr 120px 1fr;
   align-items:center;
-  gap:25px;
+  gap:20px;
 }
 
 .person {
@@ -420,7 +420,7 @@ body.invitation-locked {
 .couple-section.visible .person-groom {
   opacity:1;
   transform:translateX(0) rotate(0deg);
-  transition-delay:.45s;
+  transition-delay:.48s;
 }
 
 .person-photo {
@@ -481,27 +481,114 @@ body.invitation-locked {
   color:var(--muted);
 }
 
+.couple-bridge {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  opacity:0;
+  transition:opacity .95s ease .3s, transform 1s cubic-bezier(.22,1,.36,1) .3s;
+  transform:scale(.85);
+}
+
+.couple-section.visible .couple-bridge {
+  opacity:1;
+  transform:scale(1);
+}
+
+.bridge-line {
+  width:1px;
+  height:36px;
+  background:linear-gradient(180deg, transparent, var(--gold), transparent);
+  transform:scaleY(0);
+  transition:transform .9s cubic-bezier(.22,1,.36,1) .45s;
+}
+
+.couple-section.visible .bridge-line {
+  transform:scaleY(1);
+}
+
 .ampersand {
   font-family:var(--serif);
-  font-size:65px;
+  font-size:62px;
   font-style:italic;
+  line-height:1;
   color:var(--gold);
   text-align:center;
-  opacity:0;
-  transform:scale(.65) rotate(-12deg);
-  transition:transform .95s cubic-bezier(.22,1,.36,1), opacity .9s ease;
 }
 
 .couple-section.visible .ampersand {
-  opacity:1;
-  transform:scale(1) rotate(0deg);
-  transition-delay:.32s;
-  animation:gentlePulse 3.2s ease-in-out 1.2s infinite;
+  animation:gentlePulse 3.4s ease-in-out 1.1s infinite;
 }
 
 @keyframes gentlePulse {
   0%,100% {transform:scale(1)}
-  50% {transform:scale(1.14)}
+  50% {transform:scale(1.12)}
+}
+
+/* LDR CHAPTERS UNDER COUPLE */
+
+.ldr-chapters {
+  max-width:860px;
+  margin:72px auto 0;
+  padding-top:52px;
+  border-top:1px solid var(--line);
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  text-align:left;
+}
+
+.ldr-card {
+  padding:22px 20px;
+  background:rgba(252,250,246,.72);
+  border:1px solid rgba(180,154,120,.32);
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .85s ease, transform .85s cubic-bezier(.22,1,.36,1);
+}
+
+.couple-section.visible .ldr-card:nth-child(1) {
+  opacity:1;
+  transform:translateY(0);
+  transition-delay:.55s;
+}
+
+.couple-section.visible .ldr-card:nth-child(2) {
+  opacity:1;
+  transform:translateY(0);
+  transition-delay:.72s;
+}
+
+.couple-section.visible .ldr-card:nth-child(3) {
+  opacity:1;
+  transform:translateY(0);
+  transition-delay:.89s;
+}
+
+.ldr-date {
+  font-size:9px;
+  letter-spacing:2.4px;
+  text-transform:uppercase;
+  color:var(--sage);
+  font-weight:600;
+}
+
+.ldr-title {
+  font-family:var(--serif);
+  font-size:24px;
+  font-style:italic;
+  font-weight:500;
+  margin:8px 0 10px;
+  color:var(--ink);
+}
+
+.ldr-text {
+  margin:0;
+  font-size:11.5px;
+  line-height:1.85;
+  color:var(--muted);
 }
 
 /* =================================
@@ -998,8 +1085,25 @@ body.invitation-open .music-btn {
 
   .couple-grid {
     grid-template-columns:1fr;
-    gap:20px;
+    gap:16px;
     margin-top:40px;
+  }
+
+  .couple-bridge {
+    flex-direction:row;
+    gap:14px;
+    margin:4px 0;
+  }
+
+  .bridge-line {
+    width:44px;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform:scaleX(0);
+  }
+
+  .couple-section.visible .bridge-line {
+    transform:scaleX(1);
   }
 
   .person-bride {
@@ -1021,7 +1125,14 @@ body.invitation-open .music-btn {
   }
 
   .ampersand {
-    font-size:43px;
+    font-size:44px;
+  }
+
+  .ldr-chapters {
+    grid-template-columns:1fr;
+    gap:14px;
+    margin-top:52px;
+    padding-top:38px;
   }
 
   .gallery-grid {
@@ -1073,7 +1184,10 @@ body.invitation-open .music-btn {
   .guest-label,
   #guest-name,
   .person,
-  .ampersand {
+  .couple-bridge,
+  .bridge-line,
+  .ampersand,
+  .ldr-card {
     opacity:1;
     transform:none;
   }
@@ -1146,7 +1260,7 @@ body.invitation-open .music-btn {
 
 </section>
 
-<!-- COUPLE -->
+<!-- COUPLE & OUR STORY -->
 
 <section class="couple-section reveal">
 
@@ -1175,7 +1289,11 @@ body.invitation-open .music-btn {
 
       </div>
 
-      <div class="ampersand">&</div>
+      <div class="couple-bridge" aria-hidden="true">
+        <span class="bridge-line"></span>
+        <span class="ampersand">&</span>
+        <span class="bridge-line"></span>
+      </div>
 
       <div class="person person-groom">
 
@@ -1193,6 +1311,34 @@ body.invitation-open .music-btn {
         </p>
 
       </div>
+
+    </div>
+
+    <div class="ldr-chapters">
+
+      <article class="ldr-card">
+        <span class="ldr-date">21 Juni 2026</span>
+        <h3 class="ldr-title">Awal yang Menemukan</h3>
+        <p class="ldr-text">
+          Dua arah yang saling menemukan di tengah waktu—pelan-pelan menyusun keyakinan di balik jarak yang terbentang.
+        </p>
+      </article>
+
+      <article class="ldr-card">
+        <span class="ldr-date">Di Sela Jarak & Waktu</span>
+        <h3 class="ldr-title">Ruang yang Menguatkan</h3>
+        <p class="ldr-text">
+          Jarak tidak pernah mengurangi makna; justru di ruang yang terpisah itulah setiap temu menjadi begitu berharga.
+        </p>
+      </article>
+
+      <article class="ldr-card">
+        <span class="ldr-date">10 September 2028</span>
+        <h3 class="ldr-title">Berlabuh di Bogor</h3>
+        <p class="ldr-text">
+          Perjalanan yang kian matang itu berlabuh di Kebin Coffee, Bogor—dalam satu perayaan yang hangat dan abadi.
+        </p>
+      </article>
 
     </div>
 
@@ -1538,7 +1684,7 @@ body.invitation-open .music-btn {
 
   <p class="footer-names">Evi & Rama</p>
 
-  <p class="footer-date">10 · 09 · 2028</p>
+  <p class="footer-date">10 · 09 · 28</p>
 
   <p class="footer-credit">
     MADE WITH LOVE · EVI & RAMA
