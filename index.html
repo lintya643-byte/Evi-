@@ -379,7 +379,7 @@ body.invitation-locked {
 }
 
 /* =================================
-   COUPLE & BRIDGE TRANSITION
+   COUPLE & LDR FLIGHT ROUTE
 ================================= */
 
 .couple-section {
@@ -389,12 +389,12 @@ body.invitation-locked {
 }
 
 .couple-grid {
-  max-width:860px;
+  max-width:880px;
   margin:55px auto 0;
   display:grid;
-  grid-template-columns:1fr 120px 1fr;
+  grid-template-columns:1fr 165px 1fr;
   align-items:center;
-  gap:20px;
+  gap:16px;
 }
 
 .person {
@@ -481,6 +481,8 @@ body.invitation-locked {
   color:var(--muted);
 }
 
+/* CENTER ROUTE BRIDGE */
+
 .couple-bridge {
   display:flex;
   flex-direction:column;
@@ -489,7 +491,7 @@ body.invitation-locked {
   gap:10px;
   opacity:0;
   transition:opacity .95s ease .3s, transform 1s cubic-bezier(.22,1,.36,1) .3s;
-  transform:scale(.85);
+  transform:scale(.9);
 }
 
 .couple-section.visible .couple-bridge {
@@ -497,98 +499,165 @@ body.invitation-locked {
   transform:scale(1);
 }
 
-.bridge-line {
-  width:1px;
-  height:36px;
-  background:linear-gradient(180deg, transparent, var(--gold), transparent);
-  transform:scaleY(0);
-  transition:transform .9s cubic-bezier(.22,1,.36,1) .45s;
+.route-graphic {
+  width:150px;
+  height:auto;
+  overflow:visible;
 }
 
-.couple-section.visible .bridge-line {
-  transform:scaleY(1);
+.route-arc {
+  stroke-dasharray:4 4;
+  animation:dashFlow 16s linear infinite;
+}
+
+@keyframes dashFlow {
+  to {stroke-dashoffset:-96}
+}
+
+.route-plane {
+  transform-origin:75px 22px;
+  animation:planeHover 3.4s ease-in-out infinite;
+}
+
+@keyframes planeHover {
+  0%,100% {transform:translateY(0) rotate(0deg)}
+  50% {transform:translateY(-3px) rotate(-2deg)}
 }
 
 .ampersand {
   font-family:var(--serif);
-  font-size:62px;
+  font-size:52px;
   font-style:italic;
   line-height:1;
   color:var(--gold);
   text-align:center;
 }
 
-.couple-section.visible .ampersand {
-  animation:gentlePulse 3.4s ease-in-out 1.1s infinite;
-}
+/* VINTAGE BOARDING PASS TICKET */
 
-@keyframes gentlePulse {
-  0%,100% {transform:scale(1)}
-  50% {transform:scale(1.12)}
-}
-
-/* LDR CHAPTERS UNDER COUPLE */
-
-.ldr-chapters {
-  max-width:860px;
-  margin:72px auto 0;
-  padding-top:52px;
-  border-top:1px solid var(--line);
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:24px;
-  text-align:left;
-}
-
-.ldr-card {
-  padding:22px 20px;
-  background:rgba(252,250,246,.72);
-  border:1px solid rgba(180,154,120,.32);
+.ldr-ticket {
+  max-width:520px;
+  margin:58px auto 0;
+  background:var(--white);
+  border:1px solid var(--line);
+  box-shadow:0 14px 36px rgba(53,45,40,.06);
+  position:relative;
   opacity:0;
-  transform:translateY(18px);
-  transition:opacity .85s ease, transform .85s cubic-bezier(.22,1,.36,1);
+  transform:translateY(22px);
+  transition:opacity .9s ease .55s, transform .9s cubic-bezier(.22,1,.36,1) .55s;
 }
 
-.couple-section.visible .ldr-card:nth-child(1) {
+.couple-section.visible .ldr-ticket {
   opacity:1;
   transform:translateY(0);
-  transition-delay:.55s;
 }
 
-.couple-section.visible .ldr-card:nth-child(2) {
-  opacity:1;
-  transform:translateY(0);
-  transition-delay:.72s;
+.ldr-ticket::before,
+.ldr-ticket::after {
+  content:'';
+  position:absolute;
+  top:58%;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:var(--cream);
+  border:1px solid var(--line);
+  transform:translateY(-50%);
 }
 
-.couple-section.visible .ldr-card:nth-child(3) {
-  opacity:1;
-  transform:translateY(0);
-  transition-delay:.89s;
+.ldr-ticket::before {
+  left:-10px;
+  border-left-color:transparent;
+  border-bottom-color:transparent;
+  transform:translateY(-50%) rotate(45deg);
 }
 
-.ldr-date {
-  font-size:9px;
-  letter-spacing:2.4px;
+.ldr-ticket::after {
+  right:-10px;
+  border-right-color:transparent;
+  border-top-color:transparent;
+  transform:translateY(-50%) rotate(45deg);
+}
+
+.ticket-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:11px 22px;
+  background:#E5DACB;
+  border-bottom:1px solid var(--line);
+  font-size:8.5px;
+  letter-spacing:2.6px;
+  text-transform:uppercase;
+  color:var(--ink);
+  font-weight:500;
+}
+
+.ticket-main {
+  padding:24px 24px 20px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:14px;
+}
+
+.ticket-port {
+  text-align:center;
+}
+
+.ticket-code {
+  font-family:var(--serif);
+  font-size:clamp(32px,6vw,42px);
+  line-height:1;
+  letter-spacing:1px;
+  color:var(--ink);
+}
+
+.ticket-city {
+  font-size:8.5px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+.ticket-path {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  min-width:96px;
+}
+
+.ticket-path svg {
+  width:96px;
+  height:24px;
+}
+
+.ticket-miles {
+  font-size:8px;
+  letter-spacing:2px;
   text-transform:uppercase;
   color:var(--sage);
   font-weight:600;
 }
 
-.ldr-title {
-  font-family:var(--serif);
-  font-size:24px;
-  font-style:italic;
-  font-weight:500;
-  margin:8px 0 10px;
-  color:var(--ink);
+.ticket-stub {
+  padding:13px 22px;
+  border-top:1px dashed var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
 }
 
-.ldr-text {
-  margin:0;
-  font-size:11.5px;
-  line-height:1.85;
-  color:var(--muted);
+.ticket-stub strong {
+  color:var(--ink);
+  font-weight:500;
 }
 
 /* =================================
@@ -1085,25 +1154,12 @@ body.invitation-open .music-btn {
 
   .couple-grid {
     grid-template-columns:1fr;
-    gap:16px;
+    gap:14px;
     margin-top:40px;
   }
 
   .couple-bridge {
-    flex-direction:row;
-    gap:14px;
-    margin:4px 0;
-  }
-
-  .bridge-line {
-    width:44px;
-    height:1px;
-    background:linear-gradient(90deg, transparent, var(--gold), transparent);
-    transform:scaleX(0);
-  }
-
-  .couple-section.visible .bridge-line {
-    transform:scaleX(1);
+    margin:6px 0;
   }
 
   .person-bride {
@@ -1125,14 +1181,31 @@ body.invitation-open .music-btn {
   }
 
   .ampersand {
-    font-size:44px;
+    font-size:42px;
   }
 
-  .ldr-chapters {
-    grid-template-columns:1fr;
-    gap:14px;
-    margin-top:52px;
-    padding-top:38px;
+  .ldr-ticket {
+    margin-top:46px;
+  }
+
+  .ticket-top,
+  .ticket-stub {
+    padding:10px 16px;
+    font-size:7.5px;
+    letter-spacing:1.8px;
+  }
+
+  .ticket-main {
+    padding:20px 14px 18px;
+    gap:8px;
+  }
+
+  .ticket-path {
+    min-width:74px;
+  }
+
+  .ticket-path svg {
+    width:74px;
   }
 
   .gallery-grid {
@@ -1185,9 +1258,7 @@ body.invitation-open .music-btn {
   #guest-name,
   .person,
   .couple-bridge,
-  .bridge-line,
-  .ampersand,
-  .ldr-card {
+  .ldr-ticket {
     opacity:1;
     transform:none;
   }
@@ -1260,7 +1331,7 @@ body.invitation-open .music-btn {
 
 </section>
 
-<!-- COUPLE & OUR STORY -->
+<!-- COUPLE & LDR JOURNEY -->
 
 <section class="couple-section reveal">
 
@@ -1290,9 +1361,15 @@ body.invitation-open .music-btn {
       </div>
 
       <div class="couple-bridge" aria-hidden="true">
-        <span class="bridge-line"></span>
+        <svg class="route-graphic" viewBox="0 0 150 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="route-arc" d="M16 38 Q75 6 134 38" stroke="#B49A78" stroke-width="1.2"/>
+          <circle cx="16" cy="38" r="3.2" fill="#FCFAF6" stroke="#788476" stroke-width="1.5"/>
+          <circle cx="134" cy="38" r="3.2" fill="#FCFAF6" stroke="#788476" stroke-width="1.5"/>
+          <g class="route-plane">
+            <path d="M75 14 L82 22 L77 22 L77 28 L73 28 L73 22 L68 22 Z" fill="#B49A78" transform="rotate(90 75 21)"/>
+          </g>
+        </svg>
         <span class="ampersand">&</span>
-        <span class="bridge-line"></span>
       </div>
 
       <div class="person person-groom">
@@ -1314,31 +1391,43 @@ body.invitation-open .music-btn {
 
     </div>
 
-    <div class="ldr-chapters">
+    <!-- VINTAGE JOURNEY TICKET -->
 
-      <article class="ldr-card">
-        <span class="ldr-date">21 Juni 2026</span>
-        <h3 class="ldr-title">Awal yang Menemukan</h3>
-        <p class="ldr-text">
-          Dua arah yang saling menemukan di tengah waktu—pelan-pelan menyusun keyakinan di balik jarak yang terbentang.
-        </p>
-      </article>
+    <div class="ldr-ticket" aria-label="Perjalanan Jarak Jauh Pangkalpinang ke Bogor">
 
-      <article class="ldr-card">
-        <span class="ldr-date">Di Sela Jarak & Waktu</span>
-        <h3 class="ldr-title">Ruang yang Menguatkan</h3>
-        <p class="ldr-text">
-          Jarak tidak pernah mengurangi makna; justru di ruang yang terpisah itulah setiap temu menjadi begitu berharga.
-        </p>
-      </article>
+      <div class="ticket-top">
+        <span>Love Across Miles</span>
+        <span>21.06.26 — 10.09.28</span>
+      </div>
 
-      <article class="ldr-card">
-        <span class="ldr-date">10 September 2028</span>
-        <h3 class="ldr-title">Berlabuh di Bogor</h3>
-        <p class="ldr-text">
-          Perjalanan yang kian matang itu berlabuh di Kebin Coffee, Bogor—dalam satu perayaan yang hangat dan abadi.
-        </p>
-      </article>
+      <div class="ticket-main">
+
+        <div class="ticket-port">
+          <div class="ticket-code">PGK</div>
+          <div class="ticket-city">Pangkalpinang</div>
+        </div>
+
+        <div class="ticket-path" aria-hidden="true">
+          <svg viewBox="0 0 96 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="6" y1="12" x2="90" y2="12" stroke="#D9CDBD" stroke-width="1.2" stroke-dasharray="3 3"/>
+            <circle cx="6" cy="12" r="2.8" fill="#788476"/>
+            <circle cx="90" cy="12" r="2.8" fill="#788476"/>
+            <path d="M53 12 L44 7 L46 12 L44 17 Z" fill="#B49A78"/>
+          </svg>
+          <span class="ticket-miles">One Destination</span>
+        </div>
+
+        <div class="ticket-port">
+          <div class="ticket-code">BGR</div>
+          <div class="ticket-city">Jakarta · Bogor</div>
+        </div>
+
+      </div>
+
+      <div class="ticket-stub">
+        <span>Passengers: <strong>Evi & Rama</strong></span>
+        <span>Gate: <strong>Kebin Coffee</strong></span>
+      </div>
 
     </div>
 
@@ -1684,7 +1773,7 @@ body.invitation-open .music-btn {
 
   <p class="footer-names">Evi & Rama</p>
 
-  <p class="footer-date">10 · 09 · 28</p>
+  <p class="footer-date">10 · 09 · 2028</p>
 
   <p class="footer-credit">
     MADE WITH LOVE · EVI & RAMA
